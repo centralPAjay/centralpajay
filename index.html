@@ -5,66 +5,181 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CentralPAJay</title>
     <style>
+        :root {
+            --pitt-blue: #00274D;
+            --pitt-gold: #FFB81C;
+            --card-blue: #004080;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #00274D;
-            color: #FFB81C;
+            color: var(--pitt-gold);
             line-height: 1.6;
+
+            /* Background: solid blue + custom image */
+            background-color: var(--pitt-blue);
+            background-image: url("images/centralpajay-bg.png"); /* <-- add this file to your repo */
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-size: contain;
         }
+
         header {
-            background-color: #FFB81C;
-            color: #00274D;
+            background-color: var(--pitt-gold);
+            color: var(--pitt-blue);
             text-align: center;
             padding: 1rem 0;
+            border-bottom: 2px solid var(--pitt-blue);
         }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        header p {
+            margin: 0.25rem 0 0;
+            font-size: 1rem;
+        }
+
         nav {
             display: flex;
-            justify-content: space-around;
-            background-color: #00274D;
-            padding: 0.5rem;
+            justify-content: center;
+            gap: 2rem;
+            background-color: var(--pitt-blue);
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid #001a33;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
-        nav a {
-            color: #FFB81C;
+
+        .nav-link {
+            background-color: transparent;
+            color: var(--pitt-gold);
+            border: 1px solid var(--pitt-gold);
+            border-radius: 6px;
+            padding: 0.4rem 1.2rem;
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border: 1px solid #FFB81C;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background-color 0.3s, color 0.3s, transform 0.1s;
         }
-        nav a:hover {
-            background-color: #FFB81C;
-            color: #00274D;
+
+        .nav-link:hover {
+            background-color: var(--pitt-gold);
+            color: var(--pitt-blue);
+            transform: translateY(-1px);
         }
-        section {
-            padding: 2rem;
-            margin: 1rem auto;
-            max-width: 800px;
-            background: #004080;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            color: white;
+
+        .nav-link.active {
+            background-color: var(--pitt-gold);
+            color: var(--pitt-blue);
+            font-weight: bold;
         }
-        section h2 {
-            color: #FFB81C;
+
+        main {
+            padding: 2rem 1rem 3rem;
+            display: flex;
+            justify-content: center;
         }
-        section p {
-            text-align: justify;
-        }
-        footer {
-            background-color: #FFB81C;
-            color: #00274D;
-            text-align: center;
-            padding: 1rem 0;
-            position: relative;
+
+        .content-wrapper {
             width: 100%;
-            border-top: 2px solid #00274D;
+            max-width: 960px;
         }
-        footer a {
-            color: #00274D;
+
+        .tab-section {
+            display: none; /* JS will show the active one */
+        }
+
+        .tab-section.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card-blue);
+            border-radius: 10px;
+            padding: 1.5rem 1.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            color: var(--pitt-gold);
+        }
+
+        .card p {
+            margin: 0.25rem 0;
+            text-align: left;
+        }
+
+        /* Blog-specific styles */
+        .blog-intro {
+            margin-bottom: 1rem;
+        }
+
+        .blog-post {
+            background-color: #003366;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--pitt-gold);
+        }
+
+        .blog-post h3 {
+            margin: 0 0 0.4rem;
+            color: var(--pitt-gold);
+        }
+
+        .post-meta {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-post p {
+            margin: 0.25rem 0;
+        }
+
+        a {
+            color: var(--pitt-gold);
             font-weight: bold;
             text-decoration: underline;
+        }
+
+        a:hover {
+            color: #ffffff;
+        }
+
+        footer {
+            background-color: var(--pitt-gold);
+            color: var(--pitt-blue);
+            text-align: center;
+            padding: 1rem 0;
+            border-top: 2px solid var(--pitt-blue);
+        }
+
+        footer a {
+            color: var(--pitt-blue);
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -75,35 +190,144 @@
     </header>
 
     <nav>
-        <a href="#about">About</a>
-        <a href="#stats">Stats</a>
-        <a href="#discussion">Discussion</a>
-        <a href="#contact">Contact</a>
+        <button class="nav-link active" id="about-tab" onclick="showTab('about')">About</button>
+        <button class="nav-link" id="stats-tab" onclick="showTab('stats')">Stats</button>
+        <button class="nav-link" id="discussion-tab" onclick="showTab('discussion')">Discussion</button>
+        <button class="nav-link" id="blog-tab" onclick="showTab('blog')">Blog</button>
+        <button class="nav-link" id="contact-tab" onclick="showTab('contact')">Contact</button>
     </nav>
 
-    <section id="about">
-        <h2>About</h2>
-        <p>Welcome to CentralPAJay! We're dedicated to covering all things related to the University of Pittsburgh's football and sports teams. Dive into our articles, stats, and discussions to stay updated!</p>
-    </section>
+    <main>
+        <div class="content-wrapper">
 
-    <section id="stats">
-        <h2>Stats</h2>
-        <p>Check out the latest stats and performance analysis of Pitt's teams. Stay tuned for detailed updates!</p>
-    </section>
+            <!-- ABOUT TAB -->
+            <section id="about-section" class="tab-section active">
+                <div class="card">
+                    <h2>About</h2>
+                    <p>
+                        Welcome to CentralPAJay! We're dedicated to covering all things related to the University of
+                        Pittsburgh's football and sports teams. Dive into our articles, stats, and discussions to stay updated!
+                    </p>
+                </div>
+            </section>
 
-    <section id="discussion">
-        <h2>Discussion</h2>
-        <p>Join the conversation about Pitt sports! Share your thoughts, predictions, and experiences with fellow fans.</p>
-    </section>
+            <!-- STATS TAB -->
+            <section id="stats-section" class="tab-section">
+                <div class="card">
+                    <h2>Stats</h2>
+                    <p>
+                        Check out the latest stats and performance analysis of Pitt's teams. Stay tuned for detailed updates,
+                        game breakdowns, and season-long performance tracking.
+                    </p>
+                    <p>
+                        Future enhancements may include interactive tables and visual charts once data is integrated.
+                    </p>
+                </div>
+            </section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Have questions or suggestions? Reach out to us at <a href="mailto:czap85@gmail.com">czap85@gmail.com</a>.</p>
-    </section>
+            <!-- DISCUSSION TAB -->
+            <section id="discussion-section" class="tab-section">
+                <div class="card">
+                    <h2>Discussion</h2>
+                    <p>
+                        Join the conversation about Pitt sports! Share your thoughts, predictions, and experiences with
+                        fellow fans. CentralPAJay is all about building a community of passionate Pitt supporters.
+                    </p>
+                    <p>
+                        In future updates, this section can link to a Discord server, Reddit community, or embedded
+                        comment system for live discussion.
+                    </p>
+                </div>
+            </section>
+
+            <!-- BLOG TAB -->
+            <section id="blog-section" class="tab-section">
+                <div class="card">
+                    <h2>Blog</h2>
+                    <p class="blog-intro">
+                        Read in-depth articles and opinion pieces on Pitt football and other Pitt sports written by CentralPAJay.
+                        New posts will appear below as they are added.
+                    </p>
+
+                    <!--
+                        HOW TO ADD A NEW BLOG POST
+
+                        1. Copy everything inside one <article class="blog-post"> ... </article> block.
+                        2. Paste it below the last post.
+                        3. Update:
+                           - The <h3> title
+                           - The "Posted on ..." line
+                           - The paragraphs with your new content
+                        4. Commit the updated index.html to GitHub and the new post will appear on the live site.
+                    -->
+
+                    <!-- Example Blog Post 1 -->
+                    <article class="blog-post">
+                        <h3>Sample Post: 2024 Season Preview</h3>
+                        <p class="post-meta">Posted on August 1, 2024</p>
+                        <p>
+                            This is a sample blog post. Replace this text with your own article content. You can write
+                            the article in Microsoft Word first, then copy and paste the final text into this block.
+                        </p>
+                        <p>
+                            Break up longer posts into multiple paragraphs for readability. You can also add simple
+                            formatting like lists, bold text, or links if needed.
+                        </p>
+                    </article>
+
+                    <!-- Example Blog Post 2 -->
+                    <article class="blog-post">
+                        <h3>Sample Post: Keys to a Successful Home Opener</h3>
+                        <p class="post-meta">Posted on August 5, 2024</p>
+                        <p>
+                            Use this second example as a guide for future posts. When you are ready to add real content,
+                            delete these sample posts or overwrite them with your own writing.
+                        </p>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- CONTACT TAB -->
+            <section id="contact-section" class="tab-section">
+                <div class="card">
+                    <h2>Contact</h2>
+                    <p>
+                        Have questions, suggestions, or ideas for future articles? Reach out to us at
+                        <a href="mailto:czap85@gmail.com">czap85@gmail.com</a>.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </main>
 
     <footer>
         <p>&copy; 2024 CentralPAJay. All rights reserved. Contact us: <a href="mailto:czap85@gmail.com">czap85@gmail.com</a></p>
     </footer>
+
+    <script>
+        const tabIds = ["about", "stats", "discussion", "blog", "contact"];
+
+        function showTab(tabId) {
+            tabIds.forEach(id => {
+                const section = document.getElementById(id + "-section");
+                const tabButton = document.getElementById(id + "-tab");
+
+                if (section) {
+                    section.classList.toggle("active", id === tabId);
+                }
+                if (tabButton) {
+                    tabButton.classList.toggle("active", id === tabId);
+                }
+            });
+        }
+
+        // Ensure a default tab is visible on first load
+        document.addEventListener("DOMContentLoaded", function () {
+            showTab("about");
+        });
+    </script>
 </body>
 </html>
 
