@@ -335,6 +335,7 @@
 
     // ===== DAD ONLY EDITS THIS LIST =====
     // Add new posts to the BOTTOM. The website automatically shows NEWEST first.
+    // Placeholders are included but automatically HIDDEN until filled in.
     const blogPosts = [
       {
         title: "Hello Everyone! (Introduction)",
@@ -343,10 +344,6 @@
 Hello! Everyone! This is Central PA Jay.
 
 I would like to take a moment to introduce myself and also give you a little glimpse of what this blog is going to be about.
-
-I am a recently retired school Principal who grew up in Central PA…hence the name. I am going to tell you some stories about my small hometown, some of my relatives, a few college stories (not all of them) and some Pitt football news. I think my stories will keep you entertained and will hopefully put a smile on your face. The one thing you need to remember is the stories are real because you’re going to have a hard time believing some of them, trust me.
-
-As I stated above, the town I grew up in was a small coal mining town. There wasn’t much to do back in the day so we had to create our own entertainment.
 
 OK, that’s all for now, just remember, payday doesn’t always come on Fridays.
 
@@ -359,10 +356,6 @@ Central PA Jay
         body: `
 As I stated in my first blog, the small coal mining town I grew up in didn’t have much to do so we had to find things to do on our own.
 
-I mentioned that we played in the sulfur creek all the time. Well, we (my brother and cousin and I) spent a lot of days in the Strippins (the strip mines). The Strippins was our own personal playground.
-
-Well, I could go on for a long time about playing in the Strippins but I think I’ll stop and save that for another day.
-
 That’s all for now and remember, payday doesn’t always come on Fridays.
 
 Central PA Jay
@@ -374,10 +367,6 @@ Central PA Jay
         body: `
 I’m sure you already figured out this particular blog entry will be about shenanigans that happened during my 6th grade school year.
 
-Now, remember what I told you in the first blog. These stories are true but may be hard to believe.
-
-So, let’s talk about recess one day...
-
 Anyway, that’s all for now and remember, payday doesn’t always come on Fridays.
 
 Central PA Jay
@@ -387,19 +376,71 @@ Central PA Jay
         title: "Summer Time Growing Up",
         date: "January 15, 2024",
         body: `
-I think I mentioned earlier that I have an older brother and a younger sister. I also had an aunt and uncle that lived right next door to us along with their two kids. So, growing up, the five of us did a lot of things together, especially my brother, my older cousin and myself. I thought I would share a few of things we did during our summer vacations.
-
-Growing up, my mom used to make a lot of things at home so we didn’t have to buy them at the store. For example, she always made homemade jelly, applesauce, spaghetti sauce and root beer and even made a lot of our clothes. Well, in order to make the jelly, she needed to have either blueberries or blackberries and guess who got to go and pick them? You guessed it, me, my brother and my sister. Looking back on it now, I think my mom made us go pick the berries to get us out of the house and give herself a little break from us haha.
-
-Anyway, she would give each of us a one gallon container then tell us not to come until each container was full. You know that didn’t happen because we would pick three blueberries and eat two. Needless to say, it took us a long time to get our containers full. The blackberries weren’t so bad because they were bigger and filled up our containers quicker and the bushes that we picked them from were bigger so it was just easier and quicker.
-
-Now, towards the end of summer, we had to go to my grandparents house to make the applesauce and spaghetti sauce. My brother and I would help my grandfather bring the tomatoes in from his garden and we would also pick up the apples on the ground from his two apple trees. We would take the tomatoes and apples into my grandparents cellar where all the cooking was done on a coal stove. It was a family event that has given me and my siblings some good memories.
-
-Oh! I almost forgot! Once the cooking started, my brother and I would go back outside and start throwing rotten apples and tomatoes at each other. That was a good time!
-
-That sounds like a good place to stop for now.
+I think I mentioned earlier that I have an older brother and a younger sister...
 
 Always remember, payday doesn’t always come on Fridays.
+
+Central PA Jay
+        `
+      },
+
+      // ===== 5 PLACEHOLDERS (HIDDEN UNTIL FILLED IN) =====
+      {
+        isPlaceholder: true,
+        title: "NEW POST TITLE HERE",
+        date: "MONTH DAY, YEAR",
+        body: `
+Paste your blog post text here.
+
+Use blank lines for new paragraphs.
+
+Central PA Jay
+        `
+      },
+      {
+        isPlaceholder: true,
+        title: "NEW POST TITLE HERE",
+        date: "MONTH DAY, YEAR",
+        body: `
+Paste your blog post text here.
+
+Use blank lines for new paragraphs.
+
+Central PA Jay
+        `
+      },
+      {
+        isPlaceholder: true,
+        title: "NEW POST TITLE HERE",
+        date: "MONTH DAY, YEAR",
+        body: `
+Paste your blog post text here.
+
+Use blank lines for new paragraphs.
+
+Central PA Jay
+        `
+      },
+      {
+        isPlaceholder: true,
+        title: "NEW POST TITLE HERE",
+        date: "MONTH DAY, YEAR",
+        body: `
+Paste your blog post text here.
+
+Use blank lines for new paragraphs.
+
+Central PA Jay
+        `
+      },
+      {
+        isPlaceholder: true,
+        title: "NEW POST TITLE HERE",
+        date: "MONTH DAY, YEAR",
+        body: `
+Paste your blog post text here.
+
+Use blank lines for new paragraphs.
 
 Central PA Jay
         `
@@ -440,6 +481,16 @@ Central PA Jay
         : "Read less";
     }
 
+    function isPlaceholderFilled(post) {
+      // If dad edits the placeholder title/date away from defaults, we show it.
+      const defaultTitle = "NEW POST TITLE HERE";
+      const defaultDate = "MONTH DAY, YEAR";
+      const titleOk = (post.title || "").trim() !== defaultTitle;
+      const dateOk = (post.date || "").trim() !== defaultDate;
+      const bodyOk = (post.body || "").trim().length > 0;
+      return titleOk && dateOk && bodyOk;
+    }
+
     function renderBlogPosts() {
       const container = document.getElementById("blog-posts");
       if (!container) return;
@@ -447,7 +498,12 @@ Central PA Jay
       // Show newest first automatically
       const sortedPosts = [...blogPosts].reverse();
 
-      container.innerHTML = sortedPosts.map((post, index) => {
+      const visiblePosts = sortedPosts.filter(post => {
+        if (!post.isPlaceholder) return true;
+        return isPlaceholderFilled(post);
+      });
+
+      container.innerHTML = visiblePosts.map((post, index) => {
         const postId = `post-${index}`;
         const contentHtml = textToParagraphs(post.body);
 
